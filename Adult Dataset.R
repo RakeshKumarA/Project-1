@@ -103,3 +103,5 @@ table(adult.test$income,adult.test$predictedincome)
 ##Missclassification rate
 missclassifcation = (854+1548)/16281
 missclassifcation
+
+##End Result - 0.1475339
