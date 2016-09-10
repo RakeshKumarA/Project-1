@@ -16,11 +16,11 @@ require(rpart.plot)
 prp(tree)
 
 ##Predicting the outcome of Test set
-predict.decTree <- predict(tree,adult.final.test)
+predict.decTree <- predict(tree,adult.final.test,type = 'class')
 head(predict.decTree)
-predict.decTree <- as.data.frame(predict.decTree)
-predict.decTree$FinalP <- ifelse(predict.decTree$`0` > predict.decTree$`1`,0,1)
-adult.test$predict.DicTree <- predict.decTree$FinalP
+
+
+adult.test$predict.DicTree <- predict.decTree
 head(adult.test)
 
 ##Confusion Matrix
@@ -33,3 +33,11 @@ missclassifcation
 ##End Result - 0.1554573 (Lesser than Logistic Regression)
 
 
+actual.income <- adult.test$income
+cost <- 0
+for (cost in seq(0.01,0.1,0.005)){
+    ap <- prune(tree,cp=cost)
+    new.predict <- predict(ap,adult.final.test,type = 'class')
+    print("Confusion Matrix for Cp, '%d'",cost)
+    print(table(actual.income,new.predict))
+}
