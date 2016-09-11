@@ -28,7 +28,9 @@ summary(test)
 
 test$Purchase <- mean(train$Purchase)
 head(test)
-
+str(test)
+require(dplyr)
+test <- select(test,-Comb)
 
 
 ## Combine Train and Test
@@ -191,4 +193,8 @@ system.time(
 
 h2o.performance(dlearning.model)
 #making predictions
+predict.dl2 <- as.data.frame(h2o.predict(dlearning.model, test.h2o))
 
+#create a data frame and writing submission file
+sub_dlearning <- data.frame(User_ID = test$User_ID, Product_ID = test$Product_ID, Purchase = predict.dl2$predict)
+write.csv(sub_dlearning, file = "sub_dlearning_new.csv", row.names = F)
